@@ -3,38 +3,25 @@ package com.example.app;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpConnectionParamBean;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Observable;
 
-public class MemberManager {
+public class MemberManager extends Observable {
     private static MemberManager instance = null;
     private ArrayList<Member> members = null;
     public static String path = Environment.getExternalStorageDirectory()+"/members.txt";
@@ -57,6 +44,15 @@ public class MemberManager {
         return null;
     }
 
+    public void login(String username, String password) {
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("username", username));
+        nameValuePairs.add(new BasicNameValuePair("password", password));
+        AsyncHttpPost asyncHttpPost = new AsyncHttpPost("login", nameValuePairs);
+        asyncHttpPost.execute("http://1.234.88.155:9338/login/");
+        MemberManager.this.notifyObservers("Hello");
+    }
+
     public void registerMember(Member member){
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("username", member.getUsername()));
@@ -64,14 +60,16 @@ public class MemberManager {
         nameValuePairs.add(new BasicNameValuePair("groupName", member.getGroupName()));
         nameValuePairs.add(new BasicNameValuePair("phoneNumber", member.getPhoneNumber()));
         nameValuePairs.add(new BasicNameValuePair("groupMemberCount", String.valueOf(member.getGroupMemberCount())));
-        AsyncHttpPost asyncHttpPost = new AsyncHttpPost(nameValuePairs);
+        AsyncHttpPost asyncHttpPost = new AsyncHttpPost("register", nameValuePairs);
         asyncHttpPost.execute("http://1.234.88.155:9338/register/");
     }
 
     public class AsyncHttpPost extends AsyncTask<String, String, String> {
         private ArrayList<NameValuePair> nameValuePairs = null;
+        private String name = null;
 
-        public AsyncHttpPost(ArrayList<NameValuePair> nameValuePairs) {
+        public AsyncHttpPost(String name, ArrayList<NameValuePair> nameValuePairs) {
+            this.name = name;
             this.nameValuePairs = nameValuePairs;
         }
 
@@ -83,7 +81,7 @@ public class MemberManager {
             try {
                 post.setEntity(new UrlEncodedFormEntity(this.nameValuePairs, "UTF-8"));
                 HttpResponse response = client.execute(post);
-                Log.w("response11", response.toString());
+                str = EntityUtils.toString(response.getEntity());
             }
             catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -97,8 +95,12 @@ public class MemberManager {
          * on getting result
          */
         @Override
-        protected void onPostExecute(String result) {
-            Log.w("response", result);
+        protected void onPostExecute(String jsonStr) {
+            HashMap<String, Object> data = new HashMap<String, Object>();
+            data.put("name", this.name);
+            data.put("result", jsonStr);
+            MemberManager.this.setChanged();
+            MemberManager.this.notifyObservers(data);
         }
     }
 }

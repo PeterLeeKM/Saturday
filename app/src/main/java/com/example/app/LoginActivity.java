@@ -17,9 +17,42 @@ import android.widget.EditText;
 import com.example.app.Member;
 import com.example.app.MemberManager;
 
-public class LoginActivity extends ActionBarActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
+
+public class LoginActivity extends ActionBarActivity implements Observer {
 
     private EditText username, password;
+
+    @Override
+    public void update(Observable observable, Object o) {
+        HashMap<String, Object> data = (HashMap<String, Object>)o;
+        if(data.get("name").equals("login")) {
+            try {
+                JSONObject reader = new JSONObject((String)data.get("result"));
+                int isValid = reader.getInt("is_valid");
+                if(isValid == 1){
+                    Intent intent = new Intent(this, MainActivity2.class);
+                    intent.putExtra("username", this.username.getText().toString());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("알림");
+                    builder.setMessage("로그인 정보가 올바르지 않습니다.");
+                    builder.setNeutralButton("확인", new CommitDialog());
+                    builder.show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     class CommitDialog implements DialogInterface.OnClickListener{
         public void onClick(DialogInterface dialog, int which){
@@ -31,7 +64,7 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        MemberManager.getInstance().addObserver(this);
     }
 
 
@@ -56,25 +89,10 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void logIn(View view) throws NullPointerException{
-        Member member;
-        MemberManager membermanager = MemberManager.getInstance();
         this.username = (EditText)findViewById(R.id.edit_ID);
         this.password = (EditText)findViewById(R.id.edit_password);
-        member = membermanager.findMember(this.username.getText().toString());
-        if(member.getPassword().equals(this.password.getText().toString())){
-            Intent intent = new Intent(this, MainActivity2.class);
-            intent.putExtra("username", this.username.getText().toString());
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("알림");
-            builder.setMessage("로그인 정보가 올바르지 않습니다.");
-            builder.setNeutralButton("확인", new CommitDialog());
-            builder.show();
-        }
+        MemberManager.getInstance().login(this.username.getText().toString(),
+                                          this.password.getText().toString());
     }
 
 
@@ -94,5 +112,4 @@ public class LoginActivity extends ActionBarActivity {
             return rootView;
         }
     }
-
 }
