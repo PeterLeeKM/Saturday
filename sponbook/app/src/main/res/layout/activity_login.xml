@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:id="@+id/activity_login"
+    android:background="#96e1c8">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="0dp"
+        android:text="LOGIN"
+        android:textSize="30dp"/>
+
+    <LinearLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="0dp">
+        <!--
+        <TextView
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            android:textSize="20sp"
+            />
+        -->
+
+        <EditText android:id="@+id/edit_ID"
+            android:layout_height="wrap_content"
+            android:background="#cdffff"
+            android:layout_width="230dp"
+            android:hint="@string/edit_ID"
+            android:padding="5dp"
+            android:layout_marginLeft="0dp"
+            android:layout_gravity="center_vertical"
+            android:inputType="textPhonetic"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingLeft="0dp"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <EditText android:id="@+id/edit_password"
+            android:layout_height="wrap_content"
+            android:layout_width="230dp"
+            android:padding="5dp"
+            android:layout_marginLeft="0dp"
+            android:background="#cdffff"
+            android:inputType="textPassword"
+            android:hint="@string/edit_password"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/button_signup"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="로그인하기"
+            android:onClick="logIn"/>
+    </LinearLayout>
+
+</LinearLayout>

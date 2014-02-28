@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_mypage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:background="#96e1c8"
+    android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginBottom="30dp">
+
+        <Button android:id="@+id/main_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Main"
+            android:onClick="main"/>
+
+        <Button android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:onClick="logOut"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp">
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:text="나의 단체명"
+            android:textSize="20dp"/>
+
+        <TextView android:id="@+id/groupName_text"
+            android:layout_width="150dp"
+            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text=""
+            android:textSize="20dp"
+            android:background="#cdffff"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp">
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:text="신청 인원수"
+            android:textSize="20dp"/>
+
+        <TextView android:id="@+id/groupMemberCount_text"
+            android:layout_width="150dp"
+            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text=""
+            android:textSize="20dp"
+            android:background="#cdffff"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp">
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:text="남은 기간"
+            android:textSize="20dp"/>
+
+        <TextView android:layout_width="150dp"
+            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="320일"
+            android:textSize="20dp"
+            android:background="#cdffff"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp">
+
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="현재 신청한 물품"
+            android:textSize="20dp"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_likefirst"
+                    android:maxHeight="150dp"
+                    android:maxWidth="150dp"
+                    android:adjustViewBounds="true"
+                    android:layout_margin="10dp"
+                    android:onClick="cancleSpon"/>
+
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_hutwater"
+                    android:maxHeight="150dp"
+                    android:maxWidth="150dp"
+                    android:adjustViewBounds="true"
+                    android:layout_margin="10dp"
+                    android:onClick="cancleSpon"/>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+</LinearLayout>
