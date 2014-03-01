@@ -71,16 +71,18 @@ public class Mypage extends ActionBarActivity implements Observer{
     }
 
     public void showRequest(String productName, String address, String requiredTime){
-        makeText(productName);
+        makeText("물품명 : ", productName);
         makeImageIfRequested(productName, imageDataHutWater);
         makeImageIfRequested(productName, imageDataLikeFirst);
-        makeText(address);
-        makeText(requiredTime);
+        makeText("도착예정지 : ", address);
+        makeText("도착예정일 : ", requiredTime);
     }
 
-    private void makeText(String text){
+    private void makeText(String label, String text){
         TextView textView = new TextView(this);
-        textView.setText(text);
+        textView.setText(label + text);
+        textView.setTextSize(20);
+        this.currentLayout.addView(textView);
     }
 
     private void makeImageIfRequested(String productName, ImageData imageDataForCheck){
