@@ -8,49 +8,28 @@
     android:background="#ffffff"
     android:gravity="top">
     
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-5dp">
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:background="#ffffff"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:onClick="selectMySpon"
-                android:background="#ffffff"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:onClick="selectYearSpon"
-                android:background="#ffffff"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:onClick="selectSettings"
-                android:background="#ffffff"/>
-            
-        </LinearLayout>
+        android:gravity="right">
 
-        <ImageView
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:src="@drawable/spon_product_checked"/>
+            android:layout_marginRight="5dp"
+            android:text="MyPage"
+            android:padding="5dp"
+            android:background="#eeeeee"/>
 
-    </FrameLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="LogOut"
+            android:padding="5dp"
+            android:background="#eeeeee"/>
+
+    </LinearLayout>
 
     <ScrollView android:orientation="vertical"
         android:layout_width="match_parent"
@@ -84,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="15dp"
-                    android:onClick="selectSpon"
+                    android:onClick="selectHutwater"
                     android:src="@drawable/ask_spon"/>
 
             </FrameLayout>
@@ -113,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="15dp"
-                    android:onClick="selectSpon"
+                    android:onClick="selectLikefirst"
                     android:src="@drawable/ask_spon"/>
 
             </FrameLayout>

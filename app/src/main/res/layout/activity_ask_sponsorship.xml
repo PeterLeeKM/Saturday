@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activity_ask_sponsorship"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:gravity="top">
+
+    <ScrollView android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="18dp"
+                android:text="@string/hutwater"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/hutwater_spon"
+                    android:adjustViewBounds="true"
+                    android:layout_margin="10dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/address"/>
+
+            <EditText android:id="@+id/ask_address"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="0dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp"
+                android:background="#eeeeee"
+                android:textSize="20sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/date_time"/>
+
+            <EditText android:id="@+id/ask_date"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="0dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp"
+                android:background="#eeeeee"
+                android:textSize="20sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ask_spon"
+                android:onClick="askSpon"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -8,30 +8,35 @@
     android:background="#ffffff"
     android:gravity="top">
 
-    <LinearLayout android:orientation="horizontal"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right">
 
-        <Button
-            android:id="@+id/login"
-            android:text="@string/login"
+        <Button android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Log in"
+            android:padding="5dp"
+            android:background="#eeeeee"
             android:onClick="logIn"/>
 
-        <Button
-            android:id="@+id/makeID"
-            android:text="@string/makeID"
-            android:onClick="makeID"
+        <Button android:id="@+id/makeID"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Sign Up"
+            android:padding="5dp"
+            android:background="#eeeeee"
+            android:onClick="makeID"/>
 
     </LinearLayout>
 
     <ScrollView android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
 
         <LinearLayout android:layout_height="wrap_content"
             android:layout_width="match_parent"

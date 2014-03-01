@@ -2,7 +2,6 @@ package com.example.app;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,46 +12,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
-import com.example.app.MemberManager;
-import com.example.app.Member;
 
-public class MainActivity2 extends ActionBarActivity {
-
-    private String username;
+public class AskSponsorship extends ActionBarActivity {
 
     class CommitDialog implements DialogInterface.OnClickListener{
-        public void onClick(DialogInterface dialog, int which){
-
-        }
-    }
-
-    class CommitDialog2 implements DialogInterface.OnClickListener{
-
-        MainActivity2 main_activity2;
-        CommitDialog2(MainActivity2 m){
-            main_activity2 = m;
-        }
-        public void onClick(DialogInterface dialog, int which){
-            Intent intent = new Intent(main_activity2, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
+        public void onClick(DialogInterface dialog, int which){ }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-        Intent intent = getIntent();
-        this.username = intent.getStringExtra("username");
+        setContentView(R.layout.activity_ask_sponsorship);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_activity2, menu);
+        getMenuInflater().inflate(R.menu.ask_sponsorship, menu);
         return true;
     }
 
@@ -68,28 +46,12 @@ public class MainActivity2 extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void selectHutwater(View view){
-        Intent intent = new Intent(this, AskSponsorship.class);
-        startActivity(intent);
-    }
-
-    public void selectLikefirst(View view){
-        Intent intent = new Intent(this, AskSponsorship.class);
-        startActivity(intent);
-    }
-
-    public void logOut(View view){
+    public void askSpon(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("알림");
-        builder.setMessage("계정이 로그아웃 되었습니다.");
-        builder.setNeutralButton("확인", new CommitDialog2(this));
+        builder.setMessage("스폰 신청이 접수되었습니다.");
+        builder.setNeutralButton("확인", new CommitDialog());
         builder.show();
-    }
-
-    public void myPage(View view){
-        Intent intent = new Intent(this, Mypage.class);
-        intent.putExtra("username", this.username);
-        startActivity(intent);
     }
 
     /**
@@ -103,7 +65,7 @@ public class MainActivity2 extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.activity_main2, container, false);
+            View rootView = inflater.inflate(R.layout.activity_ask_sponsorship, container, false);
             return rootView;
         }
     }

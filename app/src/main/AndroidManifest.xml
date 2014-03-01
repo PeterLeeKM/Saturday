@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.app">
+    package="com.example.app" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -34,6 +34,10 @@
         <activity
             android:name="com.example.app.Mypage"
             android:label="@string/title_activity_mypage" >
+        </activity>
+        <activity
+            android:name="com.example.app.AskSponsorship"
+            android:label="@string/title_activity_ask_sponsorship" >
         </activity>
     </application>
 
