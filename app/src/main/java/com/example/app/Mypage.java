@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +28,7 @@ import java.util.Observer;
 
 public class Mypage extends ActionBarActivity implements Observer{
 
-    private String hutWater, likeFirst;
+    private String hutWater = "헛개수", likeFirst = "처음처럼";
     private LinearLayout currentLayout;
     private ImageData imageDataHutWater = new ImageData(R.drawable.hutwater, hutWater);
     private ImageData imageDataLikeFirst = new ImageData(R.drawable.likefirst, likeFirst);
@@ -40,8 +41,6 @@ public class Mypage extends ActionBarActivity implements Observer{
                 JSONArray list = new JSONArray((String)data.get("result"));
 
                 this.currentLayout = (LinearLayout)findViewById(R.id.requsted_products);
-                this.hutWater = "헛개수";
-                this.likeFirst = "처음처럼";
 
                 for(int i=0; i<list.length(); ++i) {
                     int requestId = list.getJSONObject(i).getInt("requestId");
@@ -72,9 +71,16 @@ public class Mypage extends ActionBarActivity implements Observer{
     }
 
     public void showRequest(String productName, String address, String requiredTime){
+        makeText(productName);
         makeImageIfRequested(productName, imageDataHutWater);
         makeImageIfRequested(productName, imageDataLikeFirst);
+        makeText(address);
+        makeText(requiredTime);
+    }
 
+    private void makeText(String text){
+        TextView textView = new TextView(this);
+        textView.setText(text);
     }
 
     private void makeImageIfRequested(String productName, ImageData imageDataForCheck){
@@ -86,6 +92,7 @@ public class Mypage extends ActionBarActivity implements Observer{
     private void makeImage(ImageData imageData){
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(imageData.getDrawableImage());
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         this.currentLayout.addView(imageView);
     }
 
@@ -124,7 +131,8 @@ public class Mypage extends ActionBarActivity implements Observer{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
-        //MemberManager.getInstance().addObserver(this);
+        MemberManager.getInstance().addObserver(this);
+        MemberManager.getInstance().requestList();
         /*Intent intent = getIntent();
         MemberManager.getInstance().addObserver(this);
         MemberManager.getInstance().requestList();
