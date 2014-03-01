@@ -3,161 +3,134 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#96e1c8" >
+    android:background="#ffffff" >
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_gravity="center"
-    android:gravity="center"
+    android:layout_gravity="top"
+    android:gravity="left"
     android:id="@+id/activity_signup"
-    android:background="#96e1c8">
+    android:background="#ffffff">
 
-    <TextView
-        android:layout_height="wrap_content"
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginBottom="50dp"
-        android:layout_marginLeft="10dp"
-        android:text="회원가입"
-        android:textSize="30dp"/>
-
-    <LinearLayout android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp"
-        android:paddingLeft="5dp">
-        <!--
-        <TextView
-            android:layout_width="200px"
-            android:layout_height="wrap_content"
-            android:text="ID"
-            android:textSize="20sp"
-            />
-        -->
-        <ImageView
-            android:src="@drawable/ic_id"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="55dp"
-            android:gravity="left"
-            android:adjustViewBounds="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/register_now"/>
 
-            />
-        <EditText android:id="@+id/edit_ID"
-            android:layout_height="wrap_content"
-            android:background="#cdffff"
-            android:layout_width="230dp"
-            android:hint="@string/edit_ID"
-            android:padding="5dp"
-            android:layout_marginLeft="0dp"
-            android:layout_gravity="center_vertical"
-            android:inputType="textPhonetic"/>
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:paddingLeft="10dp"
-        android:orientation="horizontal"
-        android:layout_margin="0dp">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="PassWord"
-            android:textSize="20dp"
-            />
-        <EditText android:id="@+id/edit_password"
-            android:layout_height="wrap_content"
-            android:layout_width="230dp"
-            android:padding="5dp"
-            android:layout_marginLeft="0dp"
-            android:background="#cdffff"
-            android:inputType="textPassword"
-            android:hint="@string/edit_password"/>
-    </LinearLayout>
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/enter_below_information"/>
 
-    <LinearLayout android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="단체이름"
-            android:textSize="20dp"
-            />
-        <EditText android:id="@+id/edit_group_name"
-            android:layout_height="wrap_content"
-            android:layout_width="230dp"
-            android:background="#cdffff"
-            android:layout_marginLeft="0dp"
-            android:padding="5dp"
-            android:hint="@string/edit_group_name"
-            android:inputType="textPhonetic"/>
-    </LinearLayout>
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/username_register"/>
 
-    <LinearLayout android:layout_width="match_parent"
+    <EditText android:id="@+id/register_id"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="전화번호"
-            android:textSize="20sp"
-            />
-        <EditText android:id="@+id/edit_phone_number"
-            android:layout_height="wrap_content"
-            android:layout_width="230dp"
-            android:layout_marginLeft="0dp"
-            android:padding="5dp"
-            android:hint="@string/edit_phone_number"
-            android:inputType="phone"
-            android:background="#cdffff"/>
-    </LinearLayout>
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:background="#eeeeee"
+        android:padding="5dp"
+        android:inputType="textPhonetic"/>
 
-    <LinearLayout android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="인원수"
-            android:textSize="20dp"
-            />
-        <EditText android:id="@+id/edit_number_of_member"
-            android:layout_height="wrap_content"
-            android:layout_width="230dp"
-            android:padding="5dp"
-            android:layout_marginLeft="0dp"
-            android:hint="@string/edit_number_of_member"
-            android:inputType="number"
-            android:background="#cdffff"/>
-    </LinearLayout>
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/password_register"/>
 
-    <LinearLayout android:layout_width="match_parent"
+    <EditText android:id="@+id/register_password"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:id="@+id/button_signup"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/button_signup"
-            android:onClick="signUp"/>
-    </LinearLayout>
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:background="#eeeeee"
+        android:padding="5dp"
+        android:inputType="textPassword"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/register_repassword"/>
+
+    <EditText android:id="@+id/register_password_confirmation"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:background="#eeeeee"
+        android:padding="5dp"
+        android:inputType="textPassword"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/name_of_the_organization"/>
+
+    <EditText android:id="@+id/register_groupname"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:background="#eeeeee"
+        android:padding="5dp"
+        android:inputType="textPhonetic"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/number_of_people"/>
+
+    <EditText android:id="@+id/register_number_of_people"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:background="#eeeeee"
+        android:padding="5dp"
+        android:inputType="number"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/phone_number"/>
+
+    <EditText android:id="@+id/register_phone_number"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:background="#eeeeee"
+        android:padding="5dp"
+        android:inputType="phone"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center_horizontal"
+        android:onClick="signUp"
+        android:src="@drawable/register_button"/>
 
 </LinearLayout>
 </ScrollView>

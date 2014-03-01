@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,37 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 public class SignupActivity extends ActionBarActivity {
 
-    private String username, password, groupName, phoneNumber, groupMemberCount;
+    private String username, password, password_confirmation, groupName, phoneNumber, groupMemberCount;
 
     class CommitDialog implements DialogInterface.OnClickListener{
 
-        SignupActivity signup;
-        CommitDialog(SignupActivity m){
-            signup = m;
-        }
         public void onClick(DialogInterface dialog, int which) throws NullPointerException{
-            MemberManager memberManager = MemberManager.getInstance();
-            Log.i("register", "11111111");
-            username = ((EditText)findViewById(R.id.edit_ID)).getText().toString();
-            Log.i("register", "22222222");
-            password = ((EditText)findViewById(R.id.edit_password)).getText().toString();
-            groupName = ((EditText)findViewById(R.id.edit_group_name)).getText().toString();
-            phoneNumber = ((EditText)findViewById(R.id.edit_phone_number)).getText().toString();
-            groupMemberCount = ((EditText)findViewById(R.id.edit_number_of_member)).getText().toString();
-            Log.i("register", "33333333");
 
-            memberManager.registerMember(new Member(username, password, groupName, phoneNumber, Integer.parseInt(groupMemberCount)));
-            Intent intent = new Intent(signup, MainActivity2.class);
-            intent.putExtra("username", username);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
         }
     }
 
@@ -51,7 +30,7 @@ public class SignupActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        ((EditText)findViewById(R.id.edit_ID)).setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        ((EditText)findViewById(R.id.register_id)).setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
     }
 
@@ -84,19 +63,27 @@ public class SignupActivity extends ActionBarActivity {
 //        builder.setNeutralButton("확인", new CommitDialog(this));
 //        builder.show();
         MemberManager memberManager = MemberManager.getInstance();
-        username = ((EditText)findViewById(R.id.edit_ID)).getText().toString();
-        password = ((EditText)findViewById(R.id.edit_password)).getText().toString();
-        groupName = ((EditText)findViewById(R.id.edit_group_name)).getText().toString();
-        phoneNumber = ((EditText)findViewById(R.id.edit_phone_number)).getText().toString();
-        groupMemberCount = ((EditText)findViewById(R.id.edit_number_of_member)).getText().toString();
+        username = ((EditText)findViewById(R.id.register_id)).getText().toString();
+        password = ((EditText)findViewById(R.id.register_password)).getText().toString();
+        password_confirmation = ((EditText)findViewById(R.id.register_password_confirmation)).getText().toString();
+        groupName = ((EditText)findViewById(R.id.register_groupname)).getText().toString();
+        phoneNumber = ((EditText)findViewById(R.id.register_phone_number)).getText().toString();
+        groupMemberCount = ((EditText)findViewById(R.id.register_number_of_people)).getText().toString();
 
-        memberManager.registerMember(new Member(username, password, groupName, phoneNumber, Integer.parseInt(groupMemberCount)));
-        Intent intent = new Intent(this, MainActivity2.class);
-        intent.putExtra("username", username);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        this.onStop();
+        if(password.equals(password_confirmation)){
+            memberManager.registerMember(new Member(username, password, groupName, phoneNumber, Integer.parseInt(groupMemberCount)));
+            Intent intent = new Intent(this, MainActivity2.class);
+            intent.putExtra("username", username);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("알림");
+            builder.setMessage("비밀번호 확인이 올바르지 않습니다.");
+            builder.setNeutralButton("확인", new CommitDialog());
+            builder.show();
+        }
     }
 
     /**

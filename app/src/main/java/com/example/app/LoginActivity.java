@@ -89,8 +89,8 @@ public class LoginActivity extends ActionBarActivity implements Observer {
     }
 
     public void logIn(View view) throws NullPointerException{
-        this.username = (EditText)findViewById(R.id.edit_ID);
-        this.password = (EditText)findViewById(R.id.edit_password);
+        this.username = (EditText)findViewById(R.id.input_id);
+        this.password = (EditText)findViewById(R.id.input_password);
         MemberManager.getInstance().login(this.username.getText().toString(),
                                           this.password.getText().toString());
     }
