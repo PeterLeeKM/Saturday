@@ -8,12 +8,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -76,36 +78,44 @@ public class Mypage extends ActionBarActivity implements Observer{
     public void showRequest(String productName, String address, String requiredTime){
         RelativeLayout relativeLayout = new RelativeLayout(this);
         TextView productNameText = makeText("물품명 : ", productName);
+        FrameLayout frameLayout = new FrameLayout(this);
         ImageView imageView = makeImageIfRequested(productName);
         TextView addressText = makeText("도착예정지 : ", address);
         TextView requiredTimeText = makeText("도착예정일 : ", requiredTime);
         ImageView cancel = makeImage(imageDataCancel);
 
+        frameLayout.setForegroundGravity(FrameLayout.TEXT_ALIGNMENT_CENTER);
+        FrameLayout.LayoutParams cancelParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        cancelParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+        cancelParams.setMargins(0, 0, 10, 10);
+        FrameLayout.LayoutParams imageParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        imageParams.gravity = Gravity.CENTER_HORIZONTAL;
+        frameLayout.addView(imageView, imageParams);
+        frameLayout.addView(cancel, cancelParams);
+
         RelativeLayout.LayoutParams productParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams frameParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams addressParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams requiredTimeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        RelativeLayout.LayoutParams cancelParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         productNameText.setId(1);
-        imageView.setId(2);
+        frameLayout.setId(2);
         addressText.setId(4);
         requiredTimeText.setId(5);
         cancel.setId(6);
 
         productParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         productParams.setMargins(20, 0, 0, 10);
-        cancelParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        cancelParams.setMargins(0, 0, 20, 10);
-        imageParams.addRule(RelativeLayout.BELOW, cancel.getId());
-        addressParams.addRule(RelativeLayout.BELOW, imageView.getId());
+        frameParams.addRule(RelativeLayout.BELOW, productNameText.getId());
+        frameParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        frameParams.setMargins(0, 10, 0, 0);
+        addressParams.addRule(RelativeLayout.BELOW, frameLayout.getId());
         addressParams.setMargins(20, 10, 0, 10);
         requiredTimeParams.addRule(RelativeLayout.BELOW, addressText.getId());
         requiredTimeParams.setMargins(20, 0, 0, 0);
 
         relativeLayout.addView(productNameText, productParams);
-        relativeLayout.addView(cancel, cancelParams);
-        relativeLayout.addView(imageView, imageParams);
+        relativeLayout.addView(frameLayout, frameParams);
         relativeLayout.addView(addressText, addressParams);
         relativeLayout.addView(requiredTimeText, requiredTimeParams);
 
@@ -131,6 +141,12 @@ public class Mypage extends ActionBarActivity implements Observer{
     }
 
     private ImageView makeImage(ImageData imageData){
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(imageData.getDrawableImage());
+        return imageView;
+    }
+
+    private ImageView makeButton(ImageData imageData){
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(imageData.getDrawableImage());
         imageView.setOnClickListener(new ImageClick(this));
@@ -177,7 +193,7 @@ public class Mypage extends ActionBarActivity implements Observer{
         public void onClick(View view) {
             AlertDialog.Builder builder = new AlertDialog.Builder(mypage);
             builder.setTitle("알림");
-            builder.setMessage("dz??");
+            builder.setMessage("스폰신청이 취소되었습니다.");
             builder.setNeutralButton("dz", new CommitDialog());
             builder.show();
         }
