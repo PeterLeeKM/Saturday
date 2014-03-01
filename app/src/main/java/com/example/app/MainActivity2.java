@@ -70,11 +70,17 @@ public class MainActivity2 extends ActionBarActivity {
 
     public void selectHutwater(View view){
         Intent intent = new Intent(this, AskSponsorship.class);
+        Bundle b = new Bundle();
+        b.putString("name", "헛개수");
+        intent.putExtras(b);
         startActivity(intent);
     }
 
     public void selectLikefirst(View view){
         Intent intent = new Intent(this, AskSponsorship.class);
+        Bundle b = new Bundle();
+        b.putString("name", "처음처럼");
+        intent.putExtras(b);
         startActivity(intent);
     }
 

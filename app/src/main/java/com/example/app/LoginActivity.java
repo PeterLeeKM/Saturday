@@ -36,6 +36,7 @@ public class LoginActivity extends ActionBarActivity implements Observer {
                 JSONObject reader = new JSONObject((String)data.get("result"));
                 int isValid = reader.getInt("is_valid");
                 if(isValid == 1){
+                    MemberManager.getInstance().setUserId(reader.getJSONObject("user").getInt("id"));
                     Intent intent = new Intent(this, MainActivity2.class);
                     intent.putExtra("username", this.username.getText().toString());
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

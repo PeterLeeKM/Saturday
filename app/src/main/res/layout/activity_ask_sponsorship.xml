@@ -38,7 +38,7 @@
                 android:layout_marginLeft="30dp"
                 android:src="@drawable/address"/>
 
-            <EditText android:id="@+id/ask_address"
+            <EditText android:id="@+id/address"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -55,7 +55,7 @@
                 android:layout_marginLeft="30dp"
                 android:src="@drawable/date_time"/>
 
-            <EditText android:id="@+id/ask_date"
+            <EditText android:id="@+id/required_time"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

@@ -12,8 +12,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.EditText;
 
-public class AskSponsorship extends ActionBarActivity {
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
+
+public class AskSponsorship extends ActionBarActivity implements Observer {
+
+    @Override
+    public void update(Observable observable, Object o) {
+        HashMap<String, Object> data = (HashMap<String, Object>)o;
+        if(data.get("name").equals("requestSpon")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("알림");
+            builder.setMessage("스폰 신청이 접수되었습니다.");
+            builder.setNeutralButton("확인", new CommitDialog());
+            builder.show();
+        }
+
+    }
 
     class CommitDialog implements DialogInterface.OnClickListener{
         public void onClick(DialogInterface dialog, int which){ }
@@ -23,6 +41,7 @@ public class AskSponsorship extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_sponsorship);
+        MemberManager.getInstance().addObserver(this);
     }
 
 
@@ -47,11 +66,12 @@ public class AskSponsorship extends ActionBarActivity {
     }
 
     public void askSpon(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("알림");
-        builder.setMessage("스폰 신청이 접수되었습니다.");
-        builder.setNeutralButton("확인", new CommitDialog());
-        builder.show();
+        Bundle b = getIntent().getExtras();
+        MemberManager.getInstance().requestSpon(
+            b.getString("name"),
+            ((EditText)findViewById(R.id.address)).getText().toString(),
+            ((EditText)findViewById(R.id.required_time)).getText().toString()
+        );
     }
 
     /**

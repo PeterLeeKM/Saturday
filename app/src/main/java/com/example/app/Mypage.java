@@ -47,10 +47,6 @@ public class Mypage extends ActionBarActivity {
         this.username = intent.getStringExtra("username");
 
         MemberManager memberManager = MemberManager.getInstance();
-        Member member = memberManager.findMember(this.username);
-        this.groupName = member.getGroupName();
-        this.groupMemberCount = String.valueOf(member.getGroupMemberCount());
-
         TextView groupName_text = (TextView)findViewById(R.id.groupName_text);
         TextView groupMemberCount_text = (TextView)findViewById(R.id.groupMemberCount_text);
         groupName_text.setText(groupName);

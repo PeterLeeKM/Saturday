@@ -23,11 +23,10 @@ import java.util.Observable;
 
 public class MemberManager extends Observable {
     private static MemberManager instance = null;
-    private ArrayList<Member> members = null;
     public static String path = Environment.getExternalStorageDirectory()+"/members.txt";
+    private int userId;
 
     private MemberManager() {
-        this.members = new ArrayList<Member>();
     }
     public static MemberManager getInstance() {
         if(MemberManager.instance == null)
@@ -35,13 +34,14 @@ public class MemberManager extends Observable {
         return MemberManager.instance;
     }
 
-    public Member findMember(String username){
-        for(Member member : this.members){
-            if(member.getUsername().equals(username)){
-                return member;
-            }
-        }
-        return null;
+    public void requestSpon(String productName, String address, String requiredTime) {
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("userId", String.valueOf(this.userId)));
+        nameValuePairs.add(new BasicNameValuePair("productName", productName));
+        nameValuePairs.add(new BasicNameValuePair("address", address));
+        nameValuePairs.add(new BasicNameValuePair("requiredTime", requiredTime));
+        AsyncHttpPost asyncHttpPost = new AsyncHttpPost("requestSpon", nameValuePairs);
+        asyncHttpPost.execute("http://1.234.88.155:9338/request/");
     }
 
     public void login(String username, String password) {
@@ -50,7 +50,6 @@ public class MemberManager extends Observable {
         nameValuePairs.add(new BasicNameValuePair("password", password));
         AsyncHttpPost asyncHttpPost = new AsyncHttpPost("login", nameValuePairs);
         asyncHttpPost.execute("http://1.234.88.155:9338/login/");
-        MemberManager.this.notifyObservers("Hello");
     }
 
     public void registerMember(Member member){
@@ -102,6 +101,10 @@ public class MemberManager extends Observable {
             MemberManager.this.setChanged();
             MemberManager.this.notifyObservers(data);
         }
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
 
