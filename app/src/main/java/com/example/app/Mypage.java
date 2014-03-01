@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Observable;
@@ -71,31 +73,58 @@ public class Mypage extends ActionBarActivity implements Observer{
     }
 
     public void showRequest(String productName, String address, String requiredTime){
-        makeText("물품명 : ", productName);
-        makeImageIfRequested(productName, imageDataHutWater);
-        makeImageIfRequested(productName, imageDataLikeFirst);
-        makeText("도착예정지 : ", address);
-        makeText("도착예정일 : ", requiredTime);
+        RelativeLayout relativeLayout = new RelativeLayout(this);
+        TextView productNameText = makeText("물품명 : ", productName);
+        ImageView imageView = makeImageIfRequested(productName);
+        TextView addressText = makeText("도착예정지 : ", address);
+        TextView requiredTimeText = makeText("도착예정일 : ", requiredTime);
+
+        RelativeLayout.LayoutParams productParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams addressParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams requiredTimeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        productNameText.setId(1);
+        imageView.setId(2);
+        addressText.setId(4);
+        requiredTimeText.setId(5);
+
+        productParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        imageParams.addRule(RelativeLayout.BELOW, productNameText.getId());
+        addressParams.addRule(RelativeLayout.BELOW, imageView.getId());
+        requiredTimeParams.addRule(RelativeLayout.BELOW, addressText.getId());
+
+        relativeLayout.addView(productNameText, productParams);
+        relativeLayout.addView(imageView, imageParams);
+        relativeLayout.addView(addressText, addressParams);
+        relativeLayout.addView(requiredTimeText, requiredTimeParams);
+
+        LinearLayout.LayoutParams relativeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        relativeParams.setMargins(0, 20, 0, 0);
+        this.currentLayout.addView(relativeLayout, relativeParams);
     }
 
-    private void makeText(String label, String text){
+    private TextView makeText(String label, String text){
         TextView textView = new TextView(this);
         textView.setText(label + text);
         textView.setTextSize(20);
-        this.currentLayout.addView(textView);
+        return textView;
     }
 
-    private void makeImageIfRequested(String productName, ImageData imageDataForCheck){
-        if(productName.equals(imageDataForCheck.getProductName())){
-            makeImage(imageDataForCheck);
+    private ImageView makeImageIfRequested(String productName){
+        if(productName.equals(imageDataLikeFirst.getProductName())){
+            return makeImage(imageDataLikeFirst);
+        }
+        else{
+            return makeImage(imageDataHutWater);
         }
     }
 
-    private void makeImage(ImageData imageData){
+    private ImageView makeImage(ImageData imageData){
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(imageData.getDrawableImage());
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        this.currentLayout.addView(imageView);
+        imageView.setOnClickListener(new ImageClick(this));
+        return imageView;
     }
 
     class ImageData{
@@ -126,6 +155,21 @@ public class Mypage extends ActionBarActivity implements Observer{
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+        }
+    }
+
+    class ImageClick implements View.OnClickListener{
+        private Mypage mypage;
+        public ImageClick(Mypage mypage){
+            this.mypage = mypage;
+        }
+        @Override
+        public void onClick(View view) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mypage);
+            builder.setTitle("알림");
+            builder.setMessage("dz??");
+            builder.setNeutralButton("dz", new CommitDialog());
+            builder.show();
         }
     }
 
