@@ -34,6 +34,7 @@ public class Mypage extends ActionBarActivity implements Observer{
     private LinearLayout currentLayout;
     private ImageData imageDataHutWater = new ImageData(R.drawable.hutwater, hutWater);
     private ImageData imageDataLikeFirst = new ImageData(R.drawable.likefirst, likeFirst);
+    private ImageData imageDataCancel = new ImageData(R.drawable.cancel_button, "Cancel");
 
     @Override
     public void update(Observable observable, Object o) {
@@ -78,23 +79,32 @@ public class Mypage extends ActionBarActivity implements Observer{
         ImageView imageView = makeImageIfRequested(productName);
         TextView addressText = makeText("도착예정지 : ", address);
         TextView requiredTimeText = makeText("도착예정일 : ", requiredTime);
+        ImageView cancel = makeImage(imageDataCancel);
 
         RelativeLayout.LayoutParams productParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams addressParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams requiredTimeParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams cancelParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         productNameText.setId(1);
         imageView.setId(2);
         addressText.setId(4);
         requiredTimeText.setId(5);
+        cancel.setId(6);
 
         productParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        imageParams.addRule(RelativeLayout.BELOW, productNameText.getId());
+        productParams.setMargins(20, 0, 0, 10);
+        cancelParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        cancelParams.setMargins(0, 0, 20, 10);
+        imageParams.addRule(RelativeLayout.BELOW, cancel.getId());
         addressParams.addRule(RelativeLayout.BELOW, imageView.getId());
+        addressParams.setMargins(20, 10, 0, 10);
         requiredTimeParams.addRule(RelativeLayout.BELOW, addressText.getId());
+        requiredTimeParams.setMargins(20, 0, 0, 0);
 
         relativeLayout.addView(productNameText, productParams);
+        relativeLayout.addView(cancel, cancelParams);
         relativeLayout.addView(imageView, imageParams);
         relativeLayout.addView(addressText, addressParams);
         relativeLayout.addView(requiredTimeText, requiredTimeParams);
