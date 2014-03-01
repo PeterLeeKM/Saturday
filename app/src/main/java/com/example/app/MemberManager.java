@@ -34,6 +34,20 @@ public class MemberManager extends Observable {
         return MemberManager.instance;
     }
 
+    public void cancel(int requestId) {
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("requestId", String.valueOf(requestId)));
+        AsyncHttpPost asyncHttpPost = new AsyncHttpPost("cancelRequest", nameValuePairs);
+        asyncHttpPost.execute("http://1.234.88.155:9338/cancel/");
+    }
+
+    public void requestList() {
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("userId", String.valueOf(this.userId)));
+        AsyncHttpPost asyncHttpPost = new AsyncHttpPost("requestList", nameValuePairs);
+        asyncHttpPost.execute("http://1.234.88.155:9338/requests/");
+    }
+
     public void requestSpon(String productName, String address, String requiredTime) {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("userId", String.valueOf(this.userId)));

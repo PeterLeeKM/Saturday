@@ -30,7 +30,6 @@ public class AskSponsorship extends ActionBarActivity implements Observer {
             builder.setNeutralButton("확인", new CommitDialog());
             builder.show();
         }
-
     }
 
     class CommitDialog implements DialogInterface.OnClickListener{

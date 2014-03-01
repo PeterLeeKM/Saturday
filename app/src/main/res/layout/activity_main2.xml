@@ -19,7 +19,8 @@
             android:layout_marginRight="5dp"
             android:text="MyPage"
             android:padding="5dp"
-            android:background="#eeeeee"/>
+            android:background="#eeeeee"
+            android:onClick="myPage"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -27,7 +28,8 @@
             android:layout_marginRight="5dp"
             android:text="LogOut"
             android:padding="5dp"
-            android:background="#eeeeee"/>
+            android:background="#eeeeee"
+            android:onClick="logOut"/>
 
     </LinearLayout>
 

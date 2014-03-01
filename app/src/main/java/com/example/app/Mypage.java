@@ -13,11 +13,92 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Mypage extends ActionBarActivity {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    private String username, groupName, groupMemberCount;
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
+
+public class Mypage extends ActionBarActivity implements Observer{
+
+    private String hutWater, likeFirst;
+    private LinearLayout currentLayout;
+    private ImageData imageDataHutWater = new ImageData(R.drawable.hutwater, hutWater);
+    private ImageData imageDataLikeFirst = new ImageData(R.drawable.likefirst, likeFirst);
+
+    @Override
+    public void update(Observable observable, Object o) {
+        HashMap<String, Object> data = (HashMap<String, Object>)o;
+        if(data.get("name").equals("requestList")) {
+            try {
+                JSONArray list = new JSONArray((String)data.get("result"));
+
+                this.currentLayout = (LinearLayout)findViewById(R.id.requsted_products);
+                this.hutWater = "헛개수";
+                this.likeFirst = "처음처럼";
+
+                for(int i=0; i<list.length(); ++i) {
+                    int requestId = list.getJSONObject(i).getInt("requestId");
+                    String productName = list.getJSONObject(i).getString("productName");
+                    String address = list.getJSONObject(i).getString("address");
+                    String requiredTime = list.getJSONObject(i).getString("requiredTime");
+                    showRequest(productName, address, requiredTime);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(data.get("name").equals("cancelRequest")) {
+            try {
+                JSONObject reader = new JSONObject((String)data.get("result"));
+                if(reader.getString("status").equals("OK")) {
+                    //취소되었습ㄴ디ㅏ.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("알림");
+                    builder.setMessage("스폰이 취소되었습니다.");
+                    builder.setNeutralButton("확인", new CommitDialog());
+                    builder.show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void showRequest(String productName, String address, String requiredTime){
+        makeImageIfRequested(productName, imageDataHutWater);
+        makeImageIfRequested(productName, imageDataLikeFirst);
+
+    }
+
+    private void makeImageIfRequested(String productName, ImageData imageDataForCheck){
+        if(productName.equals(imageDataForCheck.getProductName())){
+            makeImage(imageDataForCheck);
+        }
+    }
+
+    private void makeImage(ImageData imageData){
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(imageData.getDrawableImage());
+        this.currentLayout.addView(imageView);
+    }
+
+    class ImageData{
+        private int drawableImage;
+        private String productName;
+        public ImageData(int drawableImage, String productName){
+            this.drawableImage = drawableImage;
+            this.productName = productName;
+        }
+        public int getDrawableImage() { return drawableImage; }
+        public String getProductName() { return productName; }
+    }
 
     class CommitDialog implements DialogInterface.OnClickListener{
         public void onClick(DialogInterface dialog, int which){
@@ -43,14 +124,15 @@ public class Mypage extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
-        Intent intent = getIntent();
-        this.username = intent.getStringExtra("username");
+        //MemberManager.getInstance().addObserver(this);
+        /*Intent intent = getIntent();
+        MemberManager.getInstance().addObserver(this);
+        MemberManager.getInstance().requestList();
 
-        MemberManager memberManager = MemberManager.getInstance();
         TextView groupName_text = (TextView)findViewById(R.id.groupName_text);
         TextView groupMemberCount_text = (TextView)findViewById(R.id.groupMemberCount_text);
         groupName_text.setText(groupName);
-        groupMemberCount_text.setText(groupMemberCount);
+        groupMemberCount_text.setText(groupMemberCount);*/
     }
 
     @Override
@@ -74,16 +156,11 @@ public class Mypage extends ActionBarActivity {
     }
 
     public void cancleSpon(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("알림");
-        builder.setMessage("죄송합니다. 현재 물품은 이미 배송이 완료되어 취소할 수 없습니다.");
-        builder.setNeutralButton("확인", new CommitDialog());
-        builder.show();
+
     }
 
     public void main(View view){
         Intent intent = new Intent(this, MainActivity2.class);
-        intent.putExtra("username", username);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

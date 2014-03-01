@@ -94,7 +94,6 @@ public class MainActivity2 extends ActionBarActivity {
 
     public void myPage(View view){
         Intent intent = new Intent(this, Mypage.class);
-        intent.putExtra("username", this.username);
         startActivity(intent);
     }
 
