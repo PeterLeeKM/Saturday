@@ -40,6 +40,7 @@ public class Mypage extends ActionBarActivity implements Observer{
     private ImageData imageDataCancel = new ImageData(R.drawable.cancel_button, "Cancel");
     private int requestId=1;
     private Map<ImageView, Integer> map = new HashMap<ImageView, Integer>();
+    private RelativeLayout deletedLayout;
 
     @Override
     public void update(Observable observable, Object o) {
@@ -70,7 +71,7 @@ public class Mypage extends ActionBarActivity implements Observer{
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("알림");
                     builder.setMessage("스폰이 취소되었습니다.");
-                    builder.setNeutralButton("확인", new CommitDialog());
+                    builder.setNeutralButton("확인", new CommitDialog(deletedLayout, currentLayout));
                     builder.show();
                 }
             } catch (JSONException e) {
@@ -171,8 +172,14 @@ public class Mypage extends ActionBarActivity implements Observer{
     }
 
     class CommitDialog implements DialogInterface.OnClickListener{
+        RelativeLayout relativeLayout;
+        LinearLayout linearLayout;
+        public CommitDialog(RelativeLayout relativeLayout, LinearLayout linearLayout){
+            this.relativeLayout = relativeLayout;
+            this.linearLayout = linearLayout;
+        }
         public void onClick(DialogInterface dialog, int which){
-
+            linearLayout.removeView(relativeLayout);
         }
     }
 
@@ -198,6 +205,7 @@ public class Mypage extends ActionBarActivity implements Observer{
         @Override
         public void onClick(View view) {
             int requestId = map.get((ImageView)view);
+            deletedLayout = (RelativeLayout)(view.getParent().getParent());
             MemberManager.getInstance().cancel(requestId);
             /*AlertDialog.Builder builder = new AlertDialog.Builder(mypage);
             builder.setTitle("알림");

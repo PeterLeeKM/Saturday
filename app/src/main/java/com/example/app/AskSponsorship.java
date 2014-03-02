@@ -30,13 +30,21 @@ public class AskSponsorship extends ActionBarActivity implements Observer {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("알림");
             builder.setMessage("스폰 신청이 접수되었습니다.");
-            builder.setNeutralButton("확인", new CommitDialog());
+            builder.setNeutralButton("확인", new CommitDialog(this));
             builder.show();
         }
     }
 
     class CommitDialog implements DialogInterface.OnClickListener{
-        public void onClick(DialogInterface dialog, int which){ }
+        AskSponsorship ask;
+        public CommitDialog(AskSponsorship ask){
+            this.ask = ask;
+        }
+        public void onClick(DialogInterface dialog, int which){
+            Intent intent = new Intent(ask, MainActivity2.class);
+            intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     @Override
