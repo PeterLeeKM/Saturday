@@ -2,6 +2,7 @@ package com.example.app;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Observable;
@@ -41,6 +44,24 @@ public class AskSponsorship extends ActionBarActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_sponsorship);
         MemberManager.getInstance().addObserver(this);
+
+        Intent b = getIntent();
+        String name = b.getStringExtra("name");
+
+        if(name.equals("헛개수")){
+            TextView textView = (TextView)findViewById(R.id.catchphrase_product);
+            textView.setText(R.string.hutwater);
+
+            ImageView imageView = (ImageView)findViewById(R.id.explanation_product);
+            imageView.setImageResource(R.drawable.hutwater_spon);
+        }
+        else{
+            TextView textView = (TextView)findViewById(R.id.catchphrase_product);
+            textView.setText(R.string.likefirst);
+
+            ImageView imageView = (ImageView)findViewById(R.id.explanation_product);
+            imageView.setImageResource(R.drawable.likefirst_spon);
+        }
     }
 
 
@@ -65,9 +86,9 @@ public class AskSponsorship extends ActionBarActivity implements Observer {
     }
 
     public void askSpon(View view){
-        Bundle b = getIntent().getExtras();
+        Intent b = getIntent();
         MemberManager.getInstance().requestSpon(
-            b.getString("name"),
+            b.getStringExtra("name"),
             ((EditText)findViewById(R.id.address)).getText().toString(),
             ((EditText)findViewById(R.id.required_time)).getText().toString()
         );

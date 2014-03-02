@@ -68,6 +68,11 @@ public class MainActivity extends ActionBarActivity {
         builder.show();
     }
 
+    public void test(View view){
+        Intent intent = new Intent(this, Mypage.class);
+        startActivity(intent);
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */

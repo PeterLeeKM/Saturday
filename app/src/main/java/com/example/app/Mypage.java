@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -37,10 +38,13 @@ public class Mypage extends ActionBarActivity implements Observer{
     private ImageData imageDataHutWater = new ImageData(R.drawable.hutwater, hutWater);
     private ImageData imageDataLikeFirst = new ImageData(R.drawable.likefirst, likeFirst);
     private ImageData imageDataCancel = new ImageData(R.drawable.cancel_button, "Cancel");
+    private int requestId=1;
+    private Map<ImageView, Integer> map = new HashMap<ImageView, Integer>();
 
     @Override
     public void update(Observable observable, Object o) {
         HashMap<String, Object> data = (HashMap<String, Object>)o;
+
         if(data.get("name").equals("requestList")) {
             try {
                 JSONArray list = new JSONArray((String)data.get("result"));
@@ -48,11 +52,11 @@ public class Mypage extends ActionBarActivity implements Observer{
                 this.currentLayout = (LinearLayout)findViewById(R.id.requsted_products);
 
                 for(int i=0; i<list.length(); ++i) {
-                    int requestId = list.getJSONObject(i).getInt("requestId");
+                    requestId = list.getJSONObject(i).getInt("requestId");
                     String productName = list.getJSONObject(i).getString("productName");
                     String address = list.getJSONObject(i).getString("address");
                     String requiredTime = list.getJSONObject(i).getString("requiredTime");
-                    showRequest(productName, address, requiredTime);
+                    showRequest(productName, address, requiredTime, requestId);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -75,14 +79,14 @@ public class Mypage extends ActionBarActivity implements Observer{
         }
     }
 
-    public void showRequest(String productName, String address, String requiredTime){
+    public void showRequest(String productName, String address, String requiredTime, int requestId){
         RelativeLayout relativeLayout = new RelativeLayout(this);
         TextView productNameText = makeText("물품명 : ", productName);
         FrameLayout frameLayout = new FrameLayout(this);
         ImageView imageView = makeImageIfRequested(productName);
         TextView addressText = makeText("도착예정지 : ", address);
         TextView requiredTimeText = makeText("도착예정일 : ", requiredTime);
-        ImageView cancel = makeImage(imageDataCancel);
+        ImageView cancel = makeButton(imageDataCancel);
 
         frameLayout.setForegroundGravity(FrameLayout.TEXT_ALIGNMENT_CENTER);
         FrameLayout.LayoutParams cancelParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -122,6 +126,8 @@ public class Mypage extends ActionBarActivity implements Observer{
         LinearLayout.LayoutParams relativeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         relativeParams.setMargins(0, 20, 0, 0);
         this.currentLayout.addView(relativeLayout, relativeParams);
+
+        map.put(cancel, requestId);
     }
 
     private TextView makeText(String label, String text){
@@ -191,11 +197,13 @@ public class Mypage extends ActionBarActivity implements Observer{
         }
         @Override
         public void onClick(View view) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mypage);
+            int requestId = map.get((ImageView)view);
+            MemberManager.getInstance().cancel(requestId);
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(mypage);
             builder.setTitle("알림");
             builder.setMessage("스폰신청이 취소되었습니다.");
             builder.setNeutralButton("dz", new CommitDialog());
-            builder.show();
+            builder.show();*/
         }
     }
 

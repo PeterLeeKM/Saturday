@@ -17,17 +17,16 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical">
 
-            <TextView
+            <TextView android:id="@+id/catchphrase_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:textSize="18dp"
-                android:text="@string/hutwater"/>
+                android:text=""/>
 
-                <ImageView
+                <ImageView android:id="@+id/explanation_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/hutwater_spon"
                     android:adjustViewBounds="true"
                     android:layout_margin="10dp"/>
 
