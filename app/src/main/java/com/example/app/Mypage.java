@@ -3,6 +3,7 @@ package com.example.app;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -35,12 +36,14 @@ public class Mypage extends ActionBarActivity implements Observer{
 
     private String hutWater = "헛개수", likeFirst = "처음처럼";
     private LinearLayout currentLayout;
+    private TextView defaultView;
     private ImageData imageDataHutWater = new ImageData(R.drawable.hutwater, hutWater);
     private ImageData imageDataLikeFirst = new ImageData(R.drawable.likefirst, likeFirst);
     private ImageData imageDataCancel = new ImageData(R.drawable.cancel_button, "Cancel");
     private int requestId=1;
     private Map<ImageView, Integer> map = new HashMap<ImageView, Integer>();
     private RelativeLayout deletedLayout;
+    private boolean defaultOrNot = true;
 
     @Override
     public void update(Observable observable, Object o) {
@@ -49,8 +52,7 @@ public class Mypage extends ActionBarActivity implements Observer{
         if(data.get("name").equals("requestList")) {
             try {
                 JSONArray list = new JSONArray((String)data.get("result"));
-
-                this.currentLayout = (LinearLayout)findViewById(R.id.requsted_products);
+                Log.w("list", list.toString());
 
                 for(int i=0; i<list.length(); ++i) {
                     requestId = list.getJSONObject(i).getInt("requestId");
@@ -58,6 +60,10 @@ public class Mypage extends ActionBarActivity implements Observer{
                     String address = list.getJSONObject(i).getString("address");
                     String requiredTime = list.getJSONObject(i).getString("requiredTime");
                     showRequest(productName, address, requiredTime, requestId);
+                    if(defaultOrNot){
+                        this.defaultOrNot = false;
+                        this.currentLayout.removeView(defaultView);
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -71,13 +77,18 @@ public class Mypage extends ActionBarActivity implements Observer{
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("알림");
                     builder.setMessage("스폰이 취소되었습니다.");
-                    builder.setNeutralButton("확인", new CommitDialog(deletedLayout, currentLayout));
+                    builder.setNeutralButton("확인", new CommitDialog(this, deletedLayout, currentLayout));
                     builder.show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    protected void onDestroy() {
+        MemberManager.getInstance().deleteObserver(this);
+        super.onDestroy();
     }
 
     public void showRequest(String productName, String address, String requiredTime, int requestId){
@@ -125,7 +136,9 @@ public class Mypage extends ActionBarActivity implements Observer{
         relativeLayout.addView(requiredTimeText, requiredTimeParams);
 
         LinearLayout.LayoutParams relativeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        relativeParams.setMargins(0, 20, 0, 0);
+        relativeParams.setMargins(0, 30, 0, 0);
+        relativeLayout.setPadding(30, 30, 30, 30);
+        relativeLayout.setBackgroundColor(Color.parseColor("#FFDEC0"));
         this.currentLayout.addView(relativeLayout, relativeParams);
 
         map.put(cancel, requestId);
@@ -174,12 +187,24 @@ public class Mypage extends ActionBarActivity implements Observer{
     class CommitDialog implements DialogInterface.OnClickListener{
         RelativeLayout relativeLayout;
         LinearLayout linearLayout;
-        public CommitDialog(RelativeLayout relativeLayout, LinearLayout linearLayout){
+        Mypage mypage;
+        public CommitDialog(Mypage mypage, RelativeLayout relativeLayout, LinearLayout linearLayout){
+            this.mypage = mypage;
             this.relativeLayout = relativeLayout;
             this.linearLayout = linearLayout;
         }
         public void onClick(DialogInterface dialog, int which){
             linearLayout.removeView(relativeLayout);
+            if(map.size() == 0){
+                defaultOrNot = true;
+                defaultView = new TextView(mypage);
+                defaultView.setText("현재 신청하신 내역이 없습니다.");
+                defaultView.setTextSize(20);
+                defaultView.setTextColor(Color.parseColor("#444444"));
+                LinearLayout.LayoutParams defaultParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                defaultParams.gravity = Gravity.CENTER;
+                currentLayout.addView(defaultView, defaultParams);
+            }
         }
     }
 
@@ -207,11 +232,7 @@ public class Mypage extends ActionBarActivity implements Observer{
             int requestId = map.get((ImageView)view);
             deletedLayout = (RelativeLayout)(view.getParent().getParent());
             MemberManager.getInstance().cancel(requestId);
-            /*AlertDialog.Builder builder = new AlertDialog.Builder(mypage);
-            builder.setTitle("알림");
-            builder.setMessage("스폰신청이 취소되었습니다.");
-            builder.setNeutralButton("dz", new CommitDialog());
-            builder.show();*/
+            map.remove((ImageView)view);
         }
     }
 
@@ -219,6 +240,17 @@ public class Mypage extends ActionBarActivity implements Observer{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
+        this.currentLayout = (LinearLayout)findViewById(R.id.requsted_products);
+        this.currentLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+        if(defaultOrNot){
+            this.defaultView = new TextView(this);
+            defaultView.setText("현재 신청하신 내역이 없습니다.");
+            defaultView.setTextSize(20);
+            defaultView.setTextColor(Color.parseColor("#666666"));
+            LinearLayout.LayoutParams defaultParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            defaultParams.gravity = Gravity.CENTER;
+            this.currentLayout.addView(defaultView, defaultParams);
+        }
         MemberManager.getInstance().addObserver(this);
         MemberManager.getInstance().requestList();
         /*Intent intent = getIntent();
@@ -249,10 +281,6 @@ public class Mypage extends ActionBarActivity implements Observer{
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void cancleSpon(View view){
-
     }
 
     public void main(View view){

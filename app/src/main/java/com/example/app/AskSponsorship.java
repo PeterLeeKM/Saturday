@@ -1,6 +1,8 @@
 package com.example.app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -23,16 +25,24 @@ import java.util.Observer;
 
 public class AskSponsorship extends ActionBarActivity implements Observer {
 
+    private String name;
+
     @Override
     public void update(Observable observable, Object o) {
         HashMap<String, Object> data = (HashMap<String, Object>)o;
         if(data.get("name").equals("requestSpon")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(AskSponsorship.this);
             builder.setTitle("알림");
             builder.setMessage("스폰 신청이 접수되었습니다.");
-            builder.setNeutralButton("확인", new CommitDialog(this));
+            builder.setNeutralButton("확인", new CommitDialog(AskSponsorship.this));
             builder.show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        MemberManager.getInstance().deleteObserver(this);
+        super.onDestroy();
     }
 
     class CommitDialog implements DialogInterface.OnClickListener{
@@ -41,9 +51,7 @@ public class AskSponsorship extends ActionBarActivity implements Observer {
             this.ask = ask;
         }
         public void onClick(DialogInterface dialog, int which){
-            Intent intent = new Intent(ask, MainActivity2.class);
-            intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            AskSponsorship.this.finish();
         }
     }
 
@@ -54,7 +62,7 @@ public class AskSponsorship extends ActionBarActivity implements Observer {
         MemberManager.getInstance().addObserver(this);
 
         Intent b = getIntent();
-        String name = b.getStringExtra("name");
+        this.name = b.getStringExtra("name");
 
         if(name.equals("헛개수")){
             TextView textView = (TextView)findViewById(R.id.catchphrase_product);
@@ -94,9 +102,8 @@ public class AskSponsorship extends ActionBarActivity implements Observer {
     }
 
     public void askSpon(View view){
-        Intent b = getIntent();
         MemberManager.getInstance().requestSpon(
-            b.getStringExtra("name"),
+            this.name,
             ((EditText)findViewById(R.id.address)).getText().toString(),
             ((EditText)findViewById(R.id.required_time)).getText().toString()
         );
